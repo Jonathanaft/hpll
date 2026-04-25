@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Hardest Humanly Possible Levels List</title>
+  <style>
+    @font-face {
+      font-family: 'GD';
+      src: url('gd.ttf') format('truetype');
+    }
+
+    body {
+      margin: 0;
+      font-family: 'GD', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #000428, #004e92);
+      color: #ffffff;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 2.5rem;
+      font-weight: bold;
+      background: linear-gradient(90deg, #00f0ff, #ff00ff);
+      text-shadow: 0 0 10px #00f0ff, 0 0 20px #ff00ff;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.7);
+      font-family: 'GD', sans-serif;
+    }
+
+    #container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .level {
+      background: rgba(0, 0, 0, 0.6);
+      border-left: 5px solid #00f0ff;
+      margin: 10px 0;
+      padding: 12px 18px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #00f0ff33;
+      transition: transform 0.2s, box-shadow 0.2s;
+      font-family: 'GD', sans-serif;
+    }
+
+    .level:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 20px #ff00ff88;
+    }
+
+    .rank {
+      font-weight: bold;
+      color: #00f0ff;
+      margin-right: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      opacity: 0.7;
+      font-family: 'GD', sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  The Hardest Humanly Possible Levels List
+</header>
+
+<div id="container">
+  <div id="levels"></div>
+</div>
+
+<footer>
+  Geometry Dash Inspired List • Powered by list.txt
+</footer>
+
+<script>
+  async function loadLevels() {
+    try {
+      const response = await fetch('list.txt');
+      const text = await response.text();
+
+      let lines = text.split('\n').filter(line => line.trim() !== '');
+
+      // Ensure exactly 75 spots
+      for (let i = lines.length; i < 75; i++) {
+        lines.push('---');
+      }
+
+      lines = lines.slice(0, 75);
+
+      const container = document.getElementById('levels');
+
+      lines.forEach((line, index) => {
+        const div = document.createElement('div');
+        div.className = 'level';
+
+        const rank = document.createElement('span');
+        rank.className = 'rank';
+        rank.textContent = `#${index + 1}`;
+
+        const name = document.createElement('span');
+        name.textContent = line;
+
+        div.appendChild(rank);
+        div.appendChild(name);
+        container.appendChild(div);
+      });
+    } catch (error) {
+      document.getElementById('levels').innerHTML = '<p>Failed to load list.txt</p>';
+    }
+  }
+
+  loadLevels();
+</script>
+
+</body>
+</html>
